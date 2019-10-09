@@ -25,7 +25,7 @@ $kodiImports = array('xbmc.python','xbmc.gui','xbmc.json','xbmc.metadata','xbmc.
 
 //mappings of imports to kodi versions
 $kodiNames = array('13.x'=>'Gotham','14.x'=>'Helix','15.x'=>'Isengard','16.x'=>'Jarvis','17.x'=>'Krypton','18.x'=>'Leia');
-$kodiMatrix = array('xbmc.python'=>array('2.14.0'=>array('13.x'),'2.19.0'=>array('13.x','14.x'),'2.20.0'=>array('13.x','14.x','15.x'),'2.24.0'=>array('13.x','14.x','15.x','16.x'),'2.25.0'=>array('13.x','14.x','15.x','16.x','17.x'),'2.26.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x')));
+$kodiMatrix = array('xbmc.python'=>array('2.14.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'2.19.0'=>array('14.x','15.x','16.x','17.x','18.x'),'2.20.0'=>array('15.x','16.x','17.x','18.x'),'2.24.0'=>array('16.x','17.x','18.x'),'2.25.0'=>array('17.x','18.x'),'2.26.0'=>array('18.x')));
 
 
 $jsonOutput = array('schemaVersion'=>1,'label'=>'kodi version','message'=>'unknown','color'=>'blue');
@@ -38,7 +38,7 @@ if($validImport != null)
     //check if we should only show the most current
     if(isset($_GET['currentonly']) && $_GET['currentonly'] == 'true')
     {
-        $versions = array_slice($versions,-1);
+        $versions = array_slice($versions,0,1);
     }
 
     //check if we should show versions and names
