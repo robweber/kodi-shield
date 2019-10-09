@@ -3,6 +3,8 @@
 
 This is a small PHP script that can be used to generate a badge for your Kodi addon using the [Shields.io JSON endpoint]([https://shields.io/endpoint](https://shields.io/endpoint)) syntax. The result is badge you can include with your Kodi addon so people know at a glance what versions of Kodi your addon will run on. 
 
+This is done by reading in the addon.xml file of your addon from it's repository and calculating the compatible Kodi versions based on the official [Kodi compatibility matrix](https://kodi.wiki/view/Addon.xml#Dependency_versions). 
+
 ## Install
 You can install this script on any webserver that runs PHP. It does use the Simple XML library for reading in the ```addon.xml``` file of your project so the correct Kodi version can be determined. 
 
