@@ -1,6 +1,5 @@
 
-# Kodi Shield
-[![License](https://img.shields.io/github/license/robweber/kodi-shield)](https://github.com/robweber/kodi-shield/blob/master/LICENSE) 
+# Kodi Shield [![License](https://img.shields.io/github/license/robweber/kodi-shield)](https://github.com/robweber/kodi-shield/blob/master/LICENSE) 
 
 This is a small PHP script that can be used to generate a badge for your Kodi addon using the [Shields.io JSON endpoint]([https://shields.io/endpoint](https://shields.io/endpoint)) syntax. The result is badge you can include with your Kodi addon so people know at a glance what versions of Kodi your addon will run on. 
 
