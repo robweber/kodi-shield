@@ -61,7 +61,15 @@ if($validImport != null)
         //if only the most current get first in array
         if(isset($urlParams['currentonly']) && $urlParams['currentonly'] == 'true')
         {
-            $message = sprintf('>=%s',$versions[0]);
+            $prefix = ''; //assume no prefix
+
+            //if there are versions above this one in the compatibility matrix
+            if(count($versions) > 1)
+            {
+                $prefix = '>=';
+            }
+
+            $message = sprintf('%s%s',$prefix,$versions[0]);
         }
         else
         {
