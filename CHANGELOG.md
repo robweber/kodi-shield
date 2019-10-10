@@ -8,6 +8,7 @@
 
 ### Changed
 - no longer use GET query params (?username=name) and instead use positional params as part of url (/:username/:repo)
+- modified README with updated instructions
 
 ### Removed
 - removed kodi_shield.php for index.php

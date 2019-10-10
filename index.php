@@ -5,15 +5,19 @@ Kodi Shield Generator
 
 This script will generate the JSON needed to format a badge based on the Shields.io JSON Endpoint specification for Kodi addons. The goal is to show a badge that lists all compatible versions of Kodi for a given addon. 
 
-Query Params: 
+Url Params:
 
-* username __required__ - your Github username
-* repo __required__ - the name of the repository for your addon
+Example: /kodi-shield/:username/:repo/:branch 
+
+Params are positional so using an optional one means you must set the ones before it. 
+
+* username (required) - your Github username
+* repo (required) - the name of the repository for your addon
 * branch - the branch name, master is assumed by default
 * shownames - a true/false value on if the codenames for each Kodi version should also be shown
 * currentonly - another true/false value. By default all compatible Kodi versions are shown, this shows only the most current supported version. 
 
-Version: 0.1
+Version: 0.2
 Author: Rob Weber
 Source: https://github.com/robweber/kodi-shield
 License: GPL-3.0 https://github.com/robweber/kodi-shield/blob/master/LICENSE
