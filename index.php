@@ -39,34 +39,37 @@ $validImport = findImport($urlParams,$kodiImports);
 
 if($validImport != null)
 {
-    $versions = $kodiMatrix[(string)$validImport['addon']][(string)$validImport['version']];
-
-    //add version names if wanted
-    if(isset($urlParams['shownames']) && $urlParams['shownames'] == 'true')
+    if(array_key_exists((string)$validImport['version'],$kodiMatrix[(string)$validImport['addon']]))
     {
-        $names = array();
-        foreach($versions as $aVersion)
+        $versions = $kodiMatrix[(string)$validImport['addon']][(string)$validImport['version']];
+
+        //add version names if wanted
+        if(isset($urlParams['shownames']) && $urlParams['shownames'] == 'true')
         {
-            $names[] = sprintf('%s %s',$aVersion,$kodiNames[$aVersion]);
+            $names = array();
+            foreach($versions as $aVersion)
+            {
+                $names[] = sprintf('%s %s',$aVersion,$kodiNames[$aVersion]);
+            }
+
+            $versions = $names;
         }
 
-        $versions = $names;
-    }
+        //create display message
+        $message = '';
 
-    //create display message
-    $message = '';
+        //if only the most current get first in array
+        if(isset($urlParams['currentonly']) && $urlParams['currentonly'] == 'true')
+        {
+            $message = sprintf('>=%s',$versions[0]);
+        }
+        else
+        {
+            $message = implode(', ',$versions);
+        }
 
-    //if only the most current get first in array
-    if(isset($urlParams['currentonly']) && $urlParams['currentonly'] == 'true')
-    {
-        $message = sprintf('>=%s',$versions[0]);
+        $jsonOutput['message'] = $message;
     }
-    else
-    {
-        $message = implode(', ',$versions);
-    }
-
-    $jsonOutput['message'] = $message;
 }
 else
 {
