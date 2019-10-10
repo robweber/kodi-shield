@@ -6,6 +6,7 @@
 - added .htaccess file to redirect all input to index.php
 - added use of url path params instead of GET query params
 - badge shows red if addon.xml cannot be loaded or parsed, otherwise blue unknown
+- when using currentonly param an additional >= modifier is set to show this is the minimum version
 
 ### Changed
 - no longer use GET query params (?username=name) and instead use positional params as part of url (/:username/:repo)
