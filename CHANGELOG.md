@@ -8,6 +8,7 @@
 - badge shows red if addon.xml cannot be loaded or parsed, otherwise blue unknown
 - when using currentonly param an additional >= modifier is set to show this is the minimum version
 - added check if import version actually exists, show unknown if it doesn't
+- added imports for other xbmc.* libs
 
 ### Changed
 - no longer use GET query params (?username=name) and instead use positional params as part of url (/:username/:repo)
