@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased](https://github.com/robweber/kodi-shield/compare/v0.1...HEAD)
+## [Version 1.0](https://github.com/robweber/kodi-shield/compare/v0.1...v1.0)
 
 ### Added
 - added .htaccess file to redirect all input to index.php
