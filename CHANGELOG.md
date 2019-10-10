@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/robweber/kodi-shield/compare/v0.1...HEAD)
+
+### Added
+- added .htaccess file to redirect all input to index.php
+- added use of url path params instead of GET query params
+
+### Changed
+- no longer use GET query params (?username=name) and instead use positional params as part of url (/:username/:repo)
+
+### Removed
+- removed kodi_shield.php for index.php
+
 ## [Version 0.1](https://github.com/robweber/kodi-shield/commits/v0.1)
 
 ### Added

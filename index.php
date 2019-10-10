@@ -27,22 +27,24 @@ $kodiImports = array('xbmc.python','xbmc.gui','xbmc.json','xbmc.metadata','xbmc.
 $kodiNames = array('13.x'=>'Gotham','14.x'=>'Helix','15.x'=>'Isengard','16.x'=>'Jarvis','17.x'=>'Krypton','18.x'=>'Leia');
 $kodiMatrix = array('xbmc.python'=>array('2.14.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'2.19.0'=>array('14.x','15.x','16.x','17.x','18.x'),'2.20.0'=>array('15.x','16.x','17.x','18.x'),'2.24.0'=>array('16.x','17.x','18.x'),'2.25.0'=>array('17.x','18.x'),'2.26.0'=>array('18.x')));
 
+//get the url params
+$urlParams = getParams();
 
 $jsonOutput = array('schemaVersion'=>1,'label'=>'kodi version','message'=>'unknown','color'=>'blue');
-$validImport = findImport($kodiImports);
+$validImport = findImport($urlParams,$kodiImports);
 
 if($validImport != null)
 {
     $versions = $kodiMatrix[(string)$validImport['addon']][(string)$validImport['version']];
 
     //check if we should only show the most current
-    if(isset($_GET['currentonly']) && $_GET['currentonly'] == 'true')
+    if(isset($urlParams['currentonly']) && $urlParams['currentonly'] == 'true')
     {
         $versions = array_slice($versions,0,1);
     }
 
     //check if we should show versions and names
-    if(!isset($_GET['shownames']) || $_GET['shownames'] == 'false')
+    if(!isset($urlParams['shownames']) || $urlParams['shownames'] == 'false')
     {
         $jsonOutput['message'] = implode(', ',$versions);
     }
@@ -61,21 +63,21 @@ if($validImport != null)
 echo json_encode($jsonOutput);
 
 //finds the first kodi import statement in the addon.xml file
-function findImport($kodiImports){
+function findImport($urlParams,$kodiImports){
     $validImport = null;
 
     //we need the user and repo at minimum
-    if(isset($_GET['username']) && isset($_GET['repo']))
+    if(isset($urlParams['username']) && isset($urlParams['repo']))
     {
         //if no branch, assume master
         $branch = 'master';
-        if(isset($_GET['branch']))
+        if(isset($urlParams['branch']))
         {
-            $branch = $_GET['branch'];
+            $branch = $urlParams['branch'];
         }
 
         //we need the usern, repo, and branch to pull the addon.xml file from
-        $repoUrl = sprintf('https://raw.githubusercontent.com/%s/%s/%s/addon.xml',$_GET['username'],$_GET['repo'],$branch);
+        $repoUrl = sprintf('https://raw.githubusercontent.com/%s/%s/%s/addon.xml',$urlParams['username'],$urlParams['repo'],$branch);
 
         $xml = simplexml_load_file($repoUrl);
 
@@ -90,6 +92,41 @@ function findImport($kodiImports){
     }
 
     return $validImport;
+}
+
+function getParams() {
+    $result = array();
+
+    // cut the subdirectory off the path (if any)
+    $paramString = substr($_SERVER['REQUEST_URI'],strlen(dirname($_SERVER['PHP_SELF'])) + 1);
+
+    // break the string into an array and get the var wanted
+    $urlParts = explode('/', preg_replace('/\?.+/', '', $paramString));
+
+    //we need at least 2 positional params (username, and repo)
+    for($i = 0; $i < count($urlParts); $i ++)
+    {
+        switch($i){
+            case 0:
+                $result['username'] = $urlParts[$i];
+                break;
+            case 1:
+                $result['repo'] = $urlParts[$i];
+                break;
+            case 2:
+                $result['branch'] = $urlParts[$i];
+                break;
+            case 3:
+                $result['shownames'] = $urlParts[$i];
+                break;
+            case 4:
+                $result['currentonly'] = $urlParts[$i];
+                break;
+        }
+
+    }
+
+    return $result;
 }
 
 ?>
