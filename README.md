@@ -14,7 +14,7 @@ __Please note: this script assumes your project is hosted on Github and is the o
 This script uses the [Shields.io JSON endpoint](https://shields.io/endpoint) to return the JSON needed to generate the badge. Read the information on the Shields.io website for more information on how this works. An example of using the badge within the markdown file of your project could be: 
 
 ```
-![Kodi Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fweberjr.com%2Fkodi-shield%2Frobweber%2Fxbmcbackup)
+![Kodi Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fdomain.com%2Fkodi-shield%2Frobweber%2Fxbmcbackup)
 ```
 
 You can generate a URL of your own using the URL generator on the [Shields.io website]([https://shields.io/endpoint](https://shields.io/endpoint)) (scroll to the bottom of the page). The script takes the following URL parameters in the following order (some are optional):
@@ -34,14 +34,14 @@ You can generate a URL of your own using the URL generator on the [Shields.io we
 ### Default Badge: 
 
 ```
-![Kodi Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fweberjr.com%2Fkodi-shield%2Frobweber%2Fxbmcbackup)
+![Kodi Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fdomain.com%2Fkodi-shield%2Frobweber%2Fxbmcbackup)
 ```
 
 ![Kodi Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fweberjr.com%2Fkodi-shield%2Frobweber%2Fxbmcbackup)
 
 ### Badge with code names:
 ```
-![Kodi Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fweberjr.com%2Fkodi-shield%2Frobweber%2Fxbmcbackup%2Fmaster%2Ftrue)
+![Kodi Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fdomain.com%2Fkodi-shield%2Frobweber%2Fxbmcbackup%2Fmaster%2Ftrue)
 ```
 ![Kodi Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fweberjr.com%2Fkodi-shield%2Frobweber%2Fxbmcbackup%2Fmaster%2Ftrue)
 
@@ -50,7 +50,7 @@ You can generate a URL of your own using the URL generator on the [Shields.io we
 ### Badge with only the most current version: 
 
 ```
-![Kodi Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fweberjr.com%2Fkodi-shield%2Frobweber%2Fxbmcbackup%2Fmaster%2Ftrue%2Ftrue)
+![Kodi Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fdomain.com%2Fkodi-shield%2Frobweber%2Fxbmcbackup%2Fmaster%2Ftrue%2Ftrue)
 ```
 
 ![Kodi Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fweberjr.com%2Fkodi-shield%2Frobweber%2Fxbmcbackup%2Fmaster%2Ftrue%2Ftrue)
