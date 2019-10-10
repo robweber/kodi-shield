@@ -63,6 +63,11 @@ if($validImport != null)
         $jsonOutput['message'] = implode(', ', $names);
     }
 }
+else
+{
+    $jsonOutput['color'] = 'red';
+    $jsonOutput['message'] = 'addon.xml error';
+}
 
 echo json_encode($jsonOutput);
 
@@ -85,12 +90,15 @@ function findImport($urlParams,$kodiImports){
 
         $xml = simplexml_load_file($repoUrl);
 
-        foreach($xml->requires->import as $anImport){
+        if($xml !== False)
+        {
+            foreach($xml->requires->import as $anImport){
 
-            if(in_array((string)$anImport['addon'],$kodiImports))
-            {
-                $validImport = $anImport;
-                break; //we found one
+                if(in_array((string)$anImport['addon'],$kodiImports))
+                {
+                    $validImport = $anImport;
+                    break; //we found one
+                }
             }
         }
     }
