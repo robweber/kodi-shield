@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [Version 0.1](https://github.com/robweber/kodi-shield/commits/v0.1)
 
 ### Added
 
