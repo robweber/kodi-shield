@@ -24,9 +24,18 @@ License: GPL-3.0 https://github.com/robweber/kodi-shield/blob/master/LICENSE
 
 */
 
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Factory\AppFactory;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+//create slim app variable
+$app = AppFactory::create();
+$app->setBasePath("/kodi-shield"); //set this if the basepath changes
+
 //valid kodi imports
 $kodiImports = array('xbmc.python','xbmc.gui','xbmc.json','xbmc.metadata','xbmc.addon');
-
 //mappings of imports to kodi versions
 $kodiNames = array('13.x'=>'Gotham','14.x'=>'Helix','15.x'=>'Isengard','16.x'=>'Jarvis','17.x'=>'Krypton','18.x'=>'Leia');
 $kodiMatrix = array('xbmc.python'=>array('2.14.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'2.19.0'=>array('14.x','15.x','16.x','17.x','18.x'),'2.20.0'=>array('15.x','16.x','17.x','18.x'),'2.24.0'=>array('16.x','17.x','18.x'),'2.25.0'=>array('17.x','18.x'),'2.26.0'=>array('18.x')),
@@ -35,18 +44,16 @@ $kodiMatrix = array('xbmc.python'=>array('2.14.0'=>array('13.x','14.x','15.x','1
 		   'xbmc.metadata'=>array('2.1.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x')),
 		   'xbmc.addon'=>array('13.0.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'14.0.0'=>array('14.x','15.x','16.x','17.x','18.x'),'15.0.0'=>array('15.x','16.x','17.x','18.x'),'16.0.0'=>array('16.x','17.x','18.x'),'17.0.0'=>array('17.x','18.x'),'17.9.910'=>array('18.x')));
 
-//get the url params
-$urlParams = getParams();
+$app->get('/{username}/{repo}[/{branch}[/{shownames}[/{currentonly}]]]', function (Request $request, Response $response, $urlParams) use($kodiImports,$kodiNames,$kodiMatrix) {
 
-$jsonOutput = array('schemaVersion'=>1,'label'=>'kodi version','message'=>'unknown','color'=>'blue');
-$validImport = findImport($urlParams,$kodiImports);
+    $jsonOutput = array('schemaVersion'=>1,'label'=>'kodi version','message'=>'unknown','color'=>'blue');
+    $validImport = findImport($urlParams,$kodiImports);
 
 if($validImport != null)
 {
     if(array_key_exists((string)$validImport['version'],$kodiMatrix[(string)$validImport['addon']]))
     {
         $versions = $kodiMatrix[(string)$validImport['addon']][(string)$validImport['version']];
-
         //add version names if wanted
         if(isset($urlParams['shownames']) && $urlParams['shownames'] == 'true')
         {
@@ -55,31 +62,25 @@ if($validImport != null)
             {
                 $names[] = sprintf('%s %s',$aVersion,$kodiNames[$aVersion]);
             }
-
             $versions = $names;
         }
-
         //create display message
         $message = '';
-
         //if only the most current get first in array
         if(isset($urlParams['currentonly']) && $urlParams['currentonly'] == 'true')
         {
             $prefix = ''; //assume no prefix
-
             //if there are versions above this one in the compatibility matrix
             if(count($versions) > 1)
             {
                 $prefix = '>=';
             }
-
             $message = sprintf('%s%s',$prefix,$versions[0]);
         }
         else
         {
             $message = implode(', ',$versions);
         }
-
         $jsonOutput['message'] = $message;
     }
 }
@@ -89,12 +90,15 @@ else
     $jsonOutput['message'] = 'addon.xml error';
 }
 
-echo json_encode($jsonOutput);
+    $response->getBody()->write(json_encode($jsonOutput));
 
-//finds the first kodi import statement in the addon.xml file
+    return $response->withHeader('Content-Type','application/json');
+});
+
+$app->run();
+
 function findImport($urlParams,$kodiImports){
     $validImport = null;
-
     //we need the user and repo at minimum
     if(isset($urlParams['username']) && isset($urlParams['repo']))
     {
@@ -104,16 +108,12 @@ function findImport($urlParams,$kodiImports){
         {
             $branch = $urlParams['branch'];
         }
-
         //we need the usern, repo, and branch to pull the addon.xml file from
         $repoUrl = sprintf('https://raw.githubusercontent.com/%s/%s/%s/addon.xml',$urlParams['username'],$urlParams['repo'],$branch);
-
         $xml = simplexml_load_file($repoUrl);
-
         if($xml !== False)
         {
             foreach($xml->requires->import as $anImport){
-
                 if(in_array((string)$anImport['addon'],$kodiImports))
                 {
                     $validImport = $anImport;
@@ -122,43 +122,7 @@ function findImport($urlParams,$kodiImports){
             }
         }
     }
-
     return $validImport;
-}
-
-function getParams() {
-    $result = array();
-
-    // cut the subdirectory off the path (if any)
-    $paramString = substr($_SERVER['REQUEST_URI'],strlen(dirname($_SERVER['PHP_SELF'])) + 1);
-
-    // break the string into an array and get the var wanted
-    $urlParts = explode('/', preg_replace('/\?.+/', '', $paramString));
-
-    //we need at least 2 positional params (username, and repo)
-    for($i = 0; $i < count($urlParts); $i ++)
-    {
-        switch($i){
-            case 0:
-                $result['username'] = $urlParts[$i];
-                break;
-            case 1:
-                $result['repo'] = $urlParts[$i];
-                break;
-            case 2:
-                $result['branch'] = $urlParts[$i];
-                break;
-            case 3:
-                $result['shownames'] = $urlParts[$i];
-                break;
-            case 4:
-                $result['currentonly'] = $urlParts[$i];
-                break;
-        }
-
-    }
-
-    return $result;
 }
 
 ?>
