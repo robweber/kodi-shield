@@ -6,7 +6,7 @@ This is a small PHP script that can be used to generate a badge for your Kodi ad
 This is done by reading in the addon.xml file of your addon from it's repository and calculating the compatible Kodi versions based on the official [Kodi compatibility matrix](https://kodi.wiki/view/Addon.xml#Dependency_versions). 
 
 ## Install
-You can install this script on any webserver that runs PHP. It does use the Simple XML library for reading in the ```addon.xml``` file of your project so the correct Kodi version can be determined. All input is directed to the index.php file. A sample Apache file using mod_rewrite is given, for other server configurations [PRs are accepted](https://github.com/robweber/kodi-shield/pulls)!
+You can install this script on any webserver that runs PHP using composer. It does use the Simple XML library for reading in the ```addon.xml``` file of your project so the correct Kodi version can be determined. All input is directed to the index.php file. A sample Apache file using mod_rewrite is given, for other server configurations [PRs are accepted](https://github.com/robweber/kodi-shield/pulls)!
 
 __Please note: this script assumes your project is hosted on Github and is the only project in a given repo, with the addon.xml file in the root of the project folder. I've noticed this is the setup for most Kodi addons__
 
