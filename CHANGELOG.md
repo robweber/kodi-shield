@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- use the [Slim PHP framework](https://www.slimframework.com/) instead of just a basic PHP file. will help expand this to include a few other pages
+
+### Changed
+- changed index.php to use Slim Framework, helps with argument parsing
+
 ## [Version 1.0](https://github.com/robweber/kodi-shield/compare/v0.1...v1.0)
 
 ### Added
