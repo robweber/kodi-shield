@@ -30,10 +30,6 @@ use Slim\Factory\AppFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-//create slim app variable
-$app = AppFactory::create();
-$app->setBasePath("/kodi-shield"); //set this if the basepath changes
-
 //valid kodi imports
 $kodiImports = array('xbmc.python','xbmc.gui','xbmc.json','xbmc.metadata','xbmc.addon');
 //mappings of imports to kodi versions
@@ -44,59 +40,66 @@ $kodiMatrix = array('xbmc.python'=>array('2.14.0'=>array('13.x','14.x','15.x','1
 		   'xbmc.metadata'=>array('2.1.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x')),
 		   'xbmc.addon'=>array('13.0.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'14.0.0'=>array('14.x','15.x','16.x','17.x','18.x'),'15.0.0'=>array('15.x','16.x','17.x','18.x'),'16.0.0'=>array('16.x','17.x','18.x'),'17.0.0'=>array('17.x','18.x'),'17.9.910'=>array('18.x')));
 
+//create slim app variable
+$app = AppFactory::create();
+$app->setBasePath("/kodi-shield"); //set this if the basepath changes
+
+//generate shield route
 $app->get('/{username}/{repo}[/{branch}[/{shownames}[/{currentonly}]]]', function (Request $request, Response $response, $urlParams) use($kodiImports,$kodiNames,$kodiMatrix) {
 
     $jsonOutput = array('schemaVersion'=>1,'label'=>'kodi version','message'=>'unknown','color'=>'blue');
     $validImport = findImport($urlParams,$kodiImports);
 
-if($validImport != null)
-{
-    if(array_key_exists((string)$validImport['version'],$kodiMatrix[(string)$validImport['addon']]))
-    {
-        $versions = $kodiMatrix[(string)$validImport['addon']][(string)$validImport['version']];
-        //add version names if wanted
-        if(isset($urlParams['shownames']) && $urlParams['shownames'] == 'true')
-        {
-            $names = array();
-            foreach($versions as $aVersion)
-            {
-                $names[] = sprintf('%s %s',$aVersion,$kodiNames[$aVersion]);
-            }
-            $versions = $names;
-        }
-        //create display message
-        $message = '';
-        //if only the most current get first in array
-        if(isset($urlParams['currentonly']) && $urlParams['currentonly'] == 'true')
-        {
-            $prefix = ''; //assume no prefix
-            //if there are versions above this one in the compatibility matrix
-            if(count($versions) > 1)
-            {
-                $prefix = '>=';
-            }
-            $message = sprintf('%s%s',$prefix,$versions[0]);
-        }
-        else
-        {
-            $message = implode(', ',$versions);
-        }
-        $jsonOutput['message'] = $message;
-    }
-}
-else
-{
-    $jsonOutput['color'] = 'red';
-    $jsonOutput['message'] = 'addon.xml error';
-}
+	if($validImport != null)
+	{
+		if(array_key_exists((string)$validImport['version'],$kodiMatrix[(string)$validImport['addon']]))
+		{
+			$versions = $kodiMatrix[(string)$validImport['addon']][(string)$validImport['version']];
+			//add version names if wanted
+			if(isset($urlParams['shownames']) && $urlParams['shownames'] == 'true')
+			{
+				$names = array();
+				foreach($versions as $aVersion)
+				{
+					$names[] = sprintf('%s %s',$aVersion,$kodiNames[$aVersion]);
+				}
+				$versions = $names;
+			}
+			//create display message
+			$message = '';
+			//if only the most current get first in array
+			if(isset($urlParams['currentonly']) && $urlParams['currentonly'] == 'true')
+			{
+				$prefix = ''; //assume no prefix
+				//if there are versions above this one in the compatibility matrix
+				if(count($versions) > 1)
+				{
+					$prefix = '>=';
+				}
+				$message = sprintf('%s%s',$prefix,$versions[0]);
+			}
+			else
+			{
+				$message = implode(', ',$versions);
+			}
+			$jsonOutput['message'] = $message;
+		}
+	}
+	else
+	{
+		$jsonOutput['color'] = 'red';
+		$jsonOutput['message'] = 'addon.xml error';
+	}
 
-    $response->getBody()->write(json_encode($jsonOutput));
+		$response->getBody()->write(json_encode($jsonOutput));
 
-    return $response->withHeader('Content-Type','application/json');
-});
+		return $response->withHeader('Content-Type','application/json');
+	});
 
 $app->run();
 
+
+//function to find the module imported
 function findImport($urlParams,$kodiImports){
     $validImport = null;
     //we need the user and repo at minimum
