@@ -43,6 +43,28 @@ $kodiMatrix = array('xbmc.python'=>array('2.14.0'=>array('13.x','14.x','15.x','1
 $basePath = '/kodi-shield'; //set this if the basePath changes
 $app = new App();
 
+// Get container
+$container = $app->getContainer();
+
+// Register component on container
+$container['view'] = function ($container) {
+    $view = new \Slim\Views\Twig('templates', [
+        'cache' => False
+    ]);
+
+    // Instantiate and add Slim specific extension
+    $router = $container->get('router');
+    $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
+    $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
+
+    return $view;
+};
+
+//the index route
+$app->get($basePath . '/', function(Request $request, Response $response, $urlParams){
+    return $this->view->render($response, 'index.html');
+});
+
 //generate shield route
 $app->get($basePath . '/{username}/{repo}[/{branch}[/{shownames}[/{currentonly}]]]', function (Request $request, Response $response, $urlParams) use($kodiImports,$kodiNames,$kodiMatrix) {
 
