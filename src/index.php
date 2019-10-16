@@ -23,10 +23,9 @@ Source: https://github.com/robweber/kodi-shield
 License: GPL-3.0 https://github.com/robweber/kodi-shield/blob/master/LICENSE
 
 */
-
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Factory\AppFactory;
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
+use \Slim\App as App;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -41,11 +40,11 @@ $kodiMatrix = array('xbmc.python'=>array('2.14.0'=>array('13.x','14.x','15.x','1
 		   'xbmc.addon'=>array('13.0.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'14.0.0'=>array('14.x','15.x','16.x','17.x','18.x'),'15.0.0'=>array('15.x','16.x','17.x','18.x'),'16.0.0'=>array('16.x','17.x','18.x'),'17.0.0'=>array('17.x','18.x'),'17.9.910'=>array('18.x')));
 
 //create slim app variable
-$app = AppFactory::create();
-$app->setBasePath("/kodi-shield"); //set this if the basepath changes
+$basePath = '/kodi-shield'; //set this if the basePath changes
+$app = new App();
 
 //generate shield route
-$app->get('/{username}/{repo}[/{branch}[/{shownames}[/{currentonly}]]]', function (Request $request, Response $response, $urlParams) use($kodiImports,$kodiNames,$kodiMatrix) {
+$app->get($basePath . '/{username}/{repo}[/{branch}[/{shownames}[/{currentonly}]]]', function (Request $request, Response $response, $urlParams) use($kodiImports,$kodiNames,$kodiMatrix) {
 
     $jsonOutput = array('schemaVersion'=>1,'label'=>'kodi version','message'=>'unknown','color'=>'blue');
     $validImport = findImport($urlParams,$kodiImports);
