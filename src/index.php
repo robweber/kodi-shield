@@ -32,8 +32,8 @@ require __DIR__ . '/../vendor/autoload.php';
 //valid kodi imports
 $kodiImports = array('xbmc.python','xbmc.gui','xbmc.json','xbmc.metadata','xbmc.addon');
 //mappings of imports to kodi versions
-$kodiNames = array('13.x'=>'Gotham','14.x'=>'Helix','15.x'=>'Isengard','16.x'=>'Jarvis','17.x'=>'Krypton','18.x'=>'Leia');
-$kodiMatrix = array('xbmc.python'=>array('2.14.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'2.19.0'=>array('14.x','15.x','16.x','17.x','18.x'),'2.20.0'=>array('15.x','16.x','17.x','18.x'),'2.24.0'=>array('16.x','17.x','18.x'),'2.25.0'=>array('17.x','18.x'),'2.26.0'=>array('18.x')),
+$kodiNames = array('13.x'=>'Gotham','14.x'=>'Helix','15.x'=>'Isengard','16.x'=>'Jarvis','17.x'=>'Krypton','18.x'=>'Leia','19.x'=>'Matrix');
+$kodiMatrix = array('xbmc.python'=>array('2.14.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'2.19.0'=>array('14.x','15.x','16.x','17.x','18.x'),'2.20.0'=>array('15.x','16.x','17.x','18.x'),'2.24.0'=>array('16.x','17.x','18.x'),'2.25.0'=>array('17.x','18.x'),'2.26.0'=>array('18.x'),'3.0.0'=>array('19.x')),
                    'xbmc.gui'=>array('5.0.1'=>array('13.x','14.x','15.x'),'5.3.0'=>array('14.x','15.x'),'5.9.0'=>array('15.x','16.x','17.x','18.x'),'5.10.0'=>array('16.x','17.x','18.x'),'5.12.0'=>array('17.x','18.x'),'5.14.0'=>array('18.x')),
                    'xbmc.json'=>array('6.6.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'6.20.0'=>array('14.x','15.x','16.x','17.x','18.x'),'6.25.1'=>array('15.x','16.x','17.x','18.x'),'6.32.4'=>array('16.x','17.x','18.x'),'7.0.0'=>array('17.x','18.x'),'9.7.2'=>array('18.x')),
 		   'xbmc.metadata'=>array('2.1.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x')),
@@ -69,13 +69,7 @@ $app->get($basePath . '/{username}/{repo}[/{branch}[/{shownames}[/{currentonly}]
 			//if only the most current get first in array
 			if(isset($urlParams['currentonly']) && $urlParams['currentonly'] == 'true')
 			{
-				$prefix = ''; //assume no prefix
-				//if there are versions above this one in the compatibility matrix
-				if(count($versions) > 1)
-				{
-					$prefix = '>=';
-				}
-				$message = sprintf('%s%s',$prefix,$versions[0]);
+				$message = sprintf('%s',$versions[0]);
 			}
 			else
 			{
