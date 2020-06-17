@@ -12,7 +12,7 @@ function generatePreview(){
       branch = $('#branch').val().trim();
     }
 
-    endpointUrl = '{{ basePath }}/' + $('#github_username').val() + '/' + $('#github_repo').val() + '/' + branch + '/' + $('#show_codename option:selected').val() + '/' + $('#show_current_only option:selected').val();
+    endpointUrl = '{{ urlRoot }}/' + $('#github_username').val() + '/' + $('#github_repo').val() + '/' + branch + '/' + $('#show_codename option:selected').val() + '/' + $('#show_current_only option:selected').val();
     $('#badgePreview').attr('src',httpUrl + encodeURIComponent(endpointUrl));
     $('#badgeUrl').html(httpUrl + encodeURIComponent(endpointUrl));
 }

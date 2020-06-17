@@ -66,7 +66,8 @@ $container['view'] = function ($container) {
 //the index route
 $app->get($basePath . '/', function(Request $request, Response $response, $urlParams) use($basePath, $domainPath) {
     return $this->view->render($response, 'index.html', [
-        'basePath' => $domainPath . $basePath
+        'basePath' => $basePath,
+        'urlRoot' => $domainPath . $basePath
     ]);
 });
 
