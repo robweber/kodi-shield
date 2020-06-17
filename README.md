@@ -1,18 +1,17 @@
 
 # Kodi Shield [![License](https://img.shields.io/github/license/robweber/kodi-shield)](https://github.com/robweber/kodi-shield/blob/master/LICENSE) 
 
-This is a PHP applicatiion that can be used to generate a badge for your Kodi addon using the [Shields.io JSON endpoint]([https://shields.io/endpoint](https://shields.io/endpoint)) syntax. The result is badge you can include with your Kodi addon so people know at a glance what versions of Kodi your addon will run on. 
+This is a PHP application that can be used to generate a badge for your Kodi addon using the [Shields.io JSON endpoint](https://shields.io/endpoint) syntax. The result is badge you can include with your Kodi addon so people know at a glance what versions of Kodi your addon will run on. 
 
-This is done by reading in the addon.xml file of your addon from it's repository and calculating the compatible Kodi versions based on the official [Kodi compatibility matrix](https://kodi.wiki/view/Addon.xml#Dependency_versions). 
 
-## Online
+## How It Works
 
-There is a production version of this available for public use at [http://kodi-shield.weberjr.com/](http://kodi-shield.weberjr.com/). Examples on this page pull from there. 
+When queried the application will pull the ```addon.xml``` file of your addon from it's repository and calculate the compatible Kodi versions based on the official [Kodi compatibility matrix](https://kodi.wiki/view/Addon.xml#Dependency_versions). 
+
+__Please note: this script assumes your project is hosted on Github and is the only project in a given repo, with the addon.xml file in the root of the project folder. I've noticed this is the setup for most Kodi addons__ 
 
 ## Install
-You can install this script on any webserver that runs PHP using composer. It does use the Simple XML library for reading in the ```addon.xml``` file of your project so the correct Kodi version can be determined. All input is directed to the index.php file. A sample Apache file using mod_rewrite is given, for other server configurations [PRs are accepted](https://github.com/robweber/kodi-shield/pulls)!
-
-__Please note: this script assumes your project is hosted on Github and is the only project in a given repo, with the addon.xml file in the root of the project folder. I've noticed this is the setup for most Kodi addons__
+You can install this script on any webserver that runs PHP using composer. It does use the Simple XML library for reading in the ```addon.xml``` file of your project so the correct Kodi version can be determined. A sample Apache ```.htaccess``` file using mod_rewrite is given, for other server configurations [PRs are accepted](https://github.com/robweber/kodi-shield/pulls)!
 
 ## Usage
 This script uses the [Shields.io JSON endpoint](https://shields.io/endpoint) to return the JSON needed to generate the badge. Read the information on the Shields.io website for more information on how this works. An example of using the badge within the markdown file of your project could be: 
@@ -21,7 +20,7 @@ This script uses the [Shields.io JSON endpoint](https://shields.io/endpoint) to 
 ![Kodi Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fdomain.com%2Fkodi-shield%2Frobweber%2Fxbmcbackup)
 ```
 
-You can generate a URL of your own using the URL generator on the [Shields.io website]([https://shields.io/endpoint](https://shields.io/endpoint)) (scroll to the bottom of the page). The script takes the following URL parameters in the following order (some are optional):
+You can generate a URL of your own using the URL generator on the [Shields.io website](https://shields.io/endpoint) (scroll to the bottom of the page). The script takes the following URL parameters in the following order (some are optional):
 
 ```
 /kodi-shield/:username/:repo/:branch/:shownames/:currentonly

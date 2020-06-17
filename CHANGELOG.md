@@ -4,6 +4,7 @@
 
 ### Added
 - use the [Slim PHP framework](https://www.slimframework.com/) instead of just a basic PHP file. will help expand this to include a few other pages
+- added a landing page with preview area
 
 ### Changed
 - changed index.php to use Slim Framework, helps with argument parsing
