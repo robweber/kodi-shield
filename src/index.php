@@ -61,8 +61,10 @@ $container['view'] = function ($container) {
 };
 
 //the index route
-$app->get($basePath . '/', function(Request $request, Response $response, $urlParams){
-    return $this->view->render($response, 'index.html');
+$app->get($basePath . '/', function(Request $request, Response $response, $urlParams) use($basePath) {
+    return $this->view->render($response, 'index.html', [
+        'basePath' => $basePath
+    ]);
 });
 
 //generate shield route

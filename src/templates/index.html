@@ -1,5 +1,62 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Kodi Shield</h1>
+
+<script type="text/javascript">
+function generatePreview(){
+    httpUrl = 'https://img.shields.io/endpoint?url=';
+
+    branch = 'master';
+    if($('#branch').val().trim() != '')
+    {
+      branch = $('#branch').val().trim();
+    }
+
+    endpointUrl = 'https://weberjr.com/kodi-shield/' + $('#github_username').val() + '/' + $('#github_repo').val() + '/' + branch + '/' + $('#show_codename option:selected').val() + '/' + $('#show_current_only option:selected').val();
+    $('#badgePreview').attr('src',httpUrl + encodeURIComponent(endpointUrl));
+}
+</script>
+
+<div class="jumbotron">
+        <p class="lead">Kodi-Shield provides a JSON endpoint for a custom <a href="https://shields.io/">Shields.io</a> badge for your Kodi Addon. Display the versions of Kodi your addon will support right on your GitHub project page. </p>
+</div>
+<div align="center" class="mb-2">
+  <img id="badgePreview" src="" />
+</div>
+<table class="table">
+   <tr>
+     <td>GitHub Username (required)</td>
+     <td><input type="text" class="form-control" placeholder="GitHub Username" id="github_username" /></td>
+   </tr>
+   <tr>
+     <td>Repo Name (required)</td>
+     <td><input type="text" class="form-control" placeholder="Repo Name" id="github_repo" /></td>
+   </tr>
+   <tr>
+     <td>Branch</td>
+     <td><input type="text" class="form-control" placeholder="Branch" id="branch" /></td>
+   </tr>
+  <tr>
+     <td>Show Kodi Codename</td>
+     <td>
+       <select class="form-control" id="show_codename">
+         <option value="true">True</option>
+         <option value="false" selected>False</option>
+       </select>
+     </td>
+   </tr>
+   <tr>
+     <td>Show Current Only</td>
+     <td>
+       <select class="form-control" id="show_current_only">
+         <option value="true">True</option>
+         <option value="false" selected>False</option>
+       </select>
+     </td>
+   </tr>
+</table>
+<div align="center">
+  <button type="button" class="btn btn-primary mb-3" onClick="generatePreview()">Preview Badge</button>
+</div>
+
 {% endblock %}
