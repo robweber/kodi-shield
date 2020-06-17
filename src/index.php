@@ -90,10 +90,10 @@ $app->get($basePath . '/{username}/{repo}[/{branch}[/{shownames}[/{currentonly}]
 			}
 			//create display message
 			$message = '';
-			//if only the most current get first in array
+			//if only the most current get the last in array
 			if(isset($urlParams['currentonly']) && $urlParams['currentonly'] == 'true')
 			{
-				$message = sprintf('%s',$versions[0]);
+				$message = sprintf('%s',$versions[count($versions) -1]);
 			}
 			else
 			{
