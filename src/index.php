@@ -17,7 +17,7 @@ Params are positional so using an optional one means you must set the ones befor
 * shownames - a true/false value on if the codenames for each Kodi version should also be shown
 * currentonly - another true/false value. By default all compatible Kodi versions are shown, this shows only the most current supported version. 
 
-Version: 1.0
+Version: 2.0
 Author: Rob Weber
 Source: https://github.com/robweber/kodi-shield
 License: GPL-3.0 https://github.com/robweber/kodi-shield/blob/master/LICENSE
