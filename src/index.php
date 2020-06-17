@@ -113,8 +113,37 @@ $app->get($basePath . '/version/{username}/{repo}[/{branch}[/{shownames}[/{curre
 	}
 
 		$response->getBody()->write(json_encode($jsonOutput));
-
 		return $response->withHeader('Content-Type','application/json');
+	});
+
+//ROUTE FOR /downloads ENDPOINT
+$app->get($basePath . '/downloads/{repo}/{addon_name}/{addon_version}', function (Request $request, Response $response, $urlParams) {
+
+	$jsonOutput = array('schemaVersion'=>1,'label'=>sprintf('v%s downloads',$urlParams['addon_version']),'message'=>'unknown','color'=>'green');
+
+	//construct the stats url
+	$statUrl = sprintf('http://mirrors.kodi.tv/addons/%s/%s/%s-%s.zip?stats',$urlParams['repo'],$urlParams['addon_name'],$urlParams['addon_name'],$urlParams['addon_version']);
+
+	//if the addon version or name is unknown you just get 0 for everything
+	$stats = json_decode(file_get_contents($statUrl));
+
+	$totalDownloads = $stats->Total;
+
+	if($stats->Total/1000 > 1)
+	{
+		$totalDownloads = sprintf('%sK', number_format($stats->Total/1000,1));
+	}
+
+	if($stats->Total/1000000 > 1)
+	{
+		$totalDownloads = sprintf('%sM', number_format($stats->Total/1000000,1));
+	}
+
+	$jsonOutput['message'] = $totalDownloads;
+
+	$response->getBody()->write(json_encode($jsonOutput));
+	return $response->withHeader('Content-Type','application/json');
+
 	});
 
 $app->run();

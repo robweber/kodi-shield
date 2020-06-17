@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Added
+- created an endpoint /downloads that will give total downloads for a specific addon version in a Kodi repo
+
 ### Changed
 - modifed the url path to generate the badge, it is now ```/version/```
 
