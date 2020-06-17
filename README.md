@@ -13,6 +13,16 @@ __Please note: this script assumes your project is hosted on Github and is the o
 ## Install
 You can install this script on any webserver that runs PHP using composer. It does use the Simple XML library for reading in the ```addon.xml``` file of your project so the correct Kodi version can be determined. A sample Apache ```.htaccess``` file using mod_rewrite is given, for other server configurations [PRs are accepted](https://github.com/robweber/kodi-shield/pulls)!
 
+In the ```src/index.php``` file the following variables needed to be modified to fit your server setup: 
+
+```
+
+//MODIFY THESE TO MATCH YOUR SITUATION
+$domainPath = 'http://yourdomain.com' //set this to the full path of your server, can be an IP address if no domain name
+$basePath = '/kodi-shield'; //set this to the base path on your server
+
+```
+
 ## Usage
 This script uses the [Shields.io JSON endpoint](https://shields.io/endpoint) to return the JSON needed to generate the badge. Read the information on the Shields.io website for more information on how this works. An example of using the badge within the markdown file of your project could be: 
 

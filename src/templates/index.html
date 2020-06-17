@@ -12,7 +12,7 @@ function generatePreview(){
       branch = $('#branch').val().trim();
     }
 
-    endpointUrl = 'https://weberjr.com/kodi-shield/' + $('#github_username').val() + '/' + $('#github_repo').val() + '/' + branch + '/' + $('#show_codename option:selected').val() + '/' + $('#show_current_only option:selected').val();
+    endpointUrl = '{{ basePath }}/' + $('#github_username').val() + '/' + $('#github_repo').val() + '/' + branch + '/' + $('#show_codename option:selected').val() + '/' + $('#show_current_only option:selected').val();
     $('#badgePreview').attr('src',httpUrl + encodeURIComponent(endpointUrl));
     $('#badgeUrl').html(httpUrl + encodeURIComponent(endpointUrl));
 }
@@ -25,6 +25,7 @@ function generatePreview(){
   <img id="badgePreview" src="" class="md-1" />
   <p id="badgeUrl"></p>
 </div>
+
 <table class="table">
    <tr>
      <td>GitHub Username (required)</td>

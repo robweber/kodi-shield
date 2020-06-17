@@ -39,8 +39,11 @@ $kodiMatrix = array('xbmc.python'=>array('2.14.0'=>array('13.x','14.x','15.x','1
 		   'xbmc.metadata'=>array('2.1.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x')),
 		   'xbmc.addon'=>array('13.0.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'14.0.0'=>array('14.x','15.x','16.x','17.x','18.x'),'15.0.0'=>array('15.x','16.x','17.x','18.x'),'16.0.0'=>array('16.x','17.x','18.x'),'17.0.0'=>array('17.x','18.x'),'17.9.910'=>array('18.x')));
 
-//create slim app variable
+//MODIFY THESE TO MATCH YOUR SITUATION
+$domainPath = "https://weberjr.com";
 $basePath = '/kodi-shield'; //set this if the basePath changes
+
+
 $app = new App();
 
 // Get container
@@ -61,9 +64,9 @@ $container['view'] = function ($container) {
 };
 
 //the index route
-$app->get($basePath . '/', function(Request $request, Response $response, $urlParams) use($basePath) {
+$app->get($basePath . '/', function(Request $request, Response $response, $urlParams) use($basePath, $domainPath) {
     return $this->view->render($response, 'index.html', [
-        'basePath' => $basePath
+        'basePath' => $domainPath . $basePath
     ]);
 });
 
