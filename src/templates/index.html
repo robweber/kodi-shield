@@ -14,6 +14,7 @@ function generatePreview(){
 
     endpointUrl = 'https://weberjr.com/kodi-shield/' + $('#github_username').val() + '/' + $('#github_repo').val() + '/' + branch + '/' + $('#show_codename option:selected').val() + '/' + $('#show_current_only option:selected').val();
     $('#badgePreview').attr('src',httpUrl + encodeURIComponent(endpointUrl));
+    $('#badgeUrl').html(httpUrl + encodeURIComponent(endpointUrl));
 }
 </script>
 
@@ -21,7 +22,8 @@ function generatePreview(){
         <p class="lead">Kodi-Shield provides a JSON endpoint for a custom <a href="https://shields.io/">Shields.io</a> badge for your Kodi Addon. Display the versions of Kodi your addon will support right on your GitHub project page. </p>
 </div>
 <div align="center" class="mb-2">
-  <img id="badgePreview" src="" />
+  <img id="badgePreview" src="" class="md-1" />
+  <p id="badgeUrl"></p>
 </div>
 <table class="table">
    <tr>
