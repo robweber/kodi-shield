@@ -63,7 +63,7 @@ $container['view'] = function ($container) {
     return $view;
 };
 
-//the index route
+//DEFAULT ROUTE
 $app->get($basePath . '/', function(Request $request, Response $response, $urlParams) use($basePath, $domainPath) {
     return $this->view->render($response, 'index.html', [
         'basePath' => $basePath,
@@ -71,8 +71,8 @@ $app->get($basePath . '/', function(Request $request, Response $response, $urlPa
     ]);
 });
 
-//generate shield route
-$app->get($basePath . '/{username}/{repo}[/{branch}[/{shownames}[/{currentonly}]]]', function (Request $request, Response $response, $urlParams) use($kodiImports,$kodiNames,$kodiMatrix) {
+// ROUTE FOR /version endpoint
+$app->get($basePath . '/version/{username}/{repo}[/{branch}[/{shownames}[/{currentonly}]]]', function (Request $request, Response $response, $urlParams) use($kodiImports,$kodiNames,$kodiMatrix) {
 
     $jsonOutput = array('schemaVersion'=>1,'label'=>'kodi version','message'=>'unknown','color'=>'blue');
     $validImport = findImport($urlParams,$kodiImports);
