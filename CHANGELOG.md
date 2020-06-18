@@ -8,6 +8,7 @@
 ### Changed
 - modifed the url path to generate the badge, it is now ```/version/```
 - updated the landing page to include previews for both badge types
+- updated placeholder values to show examples
 
 ## [Version 2.0](https://github.com/robweber/kodi-shield/compare/v1.0...v2.0)
 
