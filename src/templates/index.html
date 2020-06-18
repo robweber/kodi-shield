@@ -3,8 +3,8 @@
 {% block content %}
 
 <script type="text/javascript">
-function generatePreview(){
-    httpUrl = 'https://img.shields.io/endpoint?url=';
+var shieldsUrl = 'https://img.shields.io/endpoint?url=';
+function generateVersionPreview(){
 
     branch = 'master';
     if($('#branch').val().trim() != '')
@@ -13,53 +13,129 @@ function generatePreview(){
     }
 
     endpointUrl = '{{ urlRoot }}/version/' + $('#github_username').val() + '/' + $('#github_repo').val() + '/' + branch + '/' + $('#show_codename option:selected').val() + '/' + $('#show_current_only option:selected').val();
-    $('#badgePreview').attr('src',httpUrl + encodeURIComponent(endpointUrl));
-    $('#badgeUrl').html(httpUrl + encodeURIComponent(endpointUrl));
+    $('#versionBadgePreview').attr('src',shieldsUrl + encodeURIComponent(endpointUrl));
+    $('#versionBadgeUrl').html(shieldsUrl + encodeURIComponent(endpointUrl));
+}
+
+function generateDownloadPreview(){
+
+  endpointUrl = '{{ urlRoot }}/downloads/' + $('#kodi_repo option:selected').val() + '/' + $('#addon_id').val() + '/' + $('#addon_version').val();
+
+  $('#downloadsBadgePreview').attr('src',shieldsUrl + encodeURIComponent(endpointUrl));
+  $('#downloadsBadgeUrl').html(shieldsUrl + encodeURIComponent(endpointUrl));
+}
+
+function changeMenu(activeTab){
+  $('#version_tab').toggleClass('active');
+  $('#version_badge_preview').toggle();
+
+  $('#downloads_tab').toggleClass('active');
+  $('#downloads_badge_preview').toggle();
+
+  return False;
 }
 </script>
 
 <div class="jumbotron">
-        <p class="lead">Kodi-Shield provides a JSON endpoint for a custom <a href="https://shields.io/">Shields.io</a> badge for your Kodi Addon. Display the versions of Kodi your addon will support right on your GitHub project page. </p>
+        <p class="lead">Kodi-Shield provides a JSON endpoint for custom <a href="https://shields.io/">Shields.io</a> badges for your Kodi Addon. Display the versions of Kodi your addon will support or the number of downloads of the most current version right on your GitHub project page. </p>
 </div>
-<div align="center" class="mb-2">
-  <img id="badgePreview" src="" class="md-1" />
-  <p id="badgeUrl"></p>
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" href="#" onclick="return changeMenu('version')" id="version_tab">Compatible Versions Badge</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" onclick="return changeMenu('downloads')" id="downloads_tab">Total Downloads Badge</a>
+  </li>
+</ul>
+
+<div id="version_badge_preview">
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-md-12"><p class="lead">This badge will show the compatible versions of Kodi for a particular addon. This is calculated by reading the addon.xml file in the addon repository on GitHub.</p></div>
+    </div>
+    <div class="row justify-content-center mt-2">
+      <img id="versionBadgePreview" src="" class="mb-2" />
+      <p id="versionBadgeUrl" class="small" align="center"></p>
+    </div>
+  </div>
+
+  <table class="table">
+     <tr>
+       <td>GitHub Username (required)</td>
+       <td><input type="text" class="form-control" placeholder="GitHub Username" id="github_username" /></td>
+     </tr>
+     <tr>
+       <td>Repo Name (required)</td>
+       <td><input type="text" class="form-control" placeholder="Repo Name" id="github_repo" /></td>
+     </tr>
+     <tr>
+       <td>Branch</td>
+       <td><input type="text" class="form-control" placeholder="Branch" id="branch" /></td>
+     </tr>
+    <tr>
+       <td>Show Kodi Codename</td>
+       <td>
+         <select class="form-control" id="show_codename">
+           <option value="true">True</option>
+           <option value="false" selected>False</option>
+         </select>
+       </td>
+     </tr>
+     <tr>
+       <td>Show Current Only</td>
+       <td>
+         <select class="form-control" id="show_current_only">
+           <option value="true">True</option>
+           <option value="false" selected>False</option>
+         </select>
+       </td>
+     </tr>
+  </table>
+  <div align="center">
+    <button type="button" class="btn btn-primary mb-3" onClick="generateVersionPreview()">Preview Badge</button>
+  </div>
 </div>
 
-<table class="table">
-   <tr>
-     <td>GitHub Username (required)</td>
-     <td><input type="text" class="form-control" placeholder="GitHub Username" id="github_username" /></td>
-   </tr>
-   <tr>
-     <td>Repo Name (required)</td>
-     <td><input type="text" class="form-control" placeholder="Repo Name" id="github_repo" /></td>
-   </tr>
-   <tr>
-     <td>Branch</td>
-     <td><input type="text" class="form-control" placeholder="Branch" id="branch" /></td>
-   </tr>
-  <tr>
-     <td>Show Kodi Codename</td>
-     <td>
-       <select class="form-control" id="show_codename">
-         <option value="true">True</option>
-         <option value="false" selected>False</option>
-       </select>
-     </td>
-   </tr>
-   <tr>
-     <td>Show Current Only</td>
-     <td>
-       <select class="form-control" id="show_current_only">
-         <option value="true">True</option>
-         <option value="false" selected>False</option>
-       </select>
-     </td>
-   </tr>
-</table>
-<div align="center">
-  <button type="button" class="btn btn-primary mb-3" onClick="generatePreview()">Preview Badge</button>
+<div id="downloads_badge_preview" style="display:none">
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-md-12"><p class="lead">This badge will show the total downloads from the Official Kodi Repo for a particular addon version. This uses stats from Kodi's mirrorbits system. </p></div>
+    </div>
+    <div class="row justify-content-center mt-2">
+      <img id="downloadsBadgePreview" src="" class="mb-2" />
+      <p id="downloadsBadgeUrl" class="small" align="center"></p>
+    </div>
+  </div>
+  <table class="table">
+    <tr>
+      <td>Addon ID</td>
+      <td><input type="text" class="form-control" placeholder="Addon ID" id="addon_id" /></td>
+    </tr>
+    <tr>
+      <td>Addon Version</td>
+      <td><input type="text" class="form-control" placeholder="Addon Version" id="addon_version" /></td>
+    </tr>
+    <tr>
+      <td>Kodi Repo</td>
+      <td>
+        <select class="form-control" id="kodi_repo">
+          <option value="dharma">Dharma</option>
+          <option value="eden">Eden</option>
+          <option value="frodo">Frodo</option>
+          <option value="gotham">Gotham</option>
+          <option value="helix">Helix</option>
+          <option value="isengard">Isengard</option>
+          <option value="jarvis">Jarvis</option>
+          <option value="krypton">Krypton</option>
+          <option value="leia">Leia</option>
+          <option value="matrix" selected>Matrix</option>
+        </select>
+      </td>
+    </tr>
+  </table>
+  <div align="center">
+    <button type="button" class="btn btn-primary mb-3" onclick="generateDownloadPreview()">Preview Badge</button>
+  </div>
 </div>
 
 {% endblock %}
