@@ -127,7 +127,7 @@ $app->get($basePath . '/downloads/{repo}/{addon_name}/{addon_version}', function
 	//if the addon version or name is unknown you just get 0 for everything
 	$stats = json_decode(file_get_contents($statUrl));
 
-	$totalDownloads = $stats->Total;
+	$totalDownloads = sprintf('%d', $stats->Total);
 
 	if($stats->Total/1000 > 1)
 	{
