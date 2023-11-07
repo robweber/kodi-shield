@@ -3,19 +3,19 @@
 /**
 Kodi Shield Generator
 
-This script will generate the JSON needed to format a badge based on the Shields.io JSON Endpoint specification for Kodi addons. The goal is to show a badge that lists all compatible versions of Kodi for a given addon. 
+This script will generate the JSON needed to format a badge based on the Shields.io JSON Endpoint specification for Kodi addons. The goal is to show a badge that lists all compatible versions of Kodi for a given addon.
 
 Url Params:
 
-Example: /kodi-shield/:username/:repo/:branch 
+Example: /kodi-shield/:username/:repo/:branch
 
-Params are positional so using an optional one means you must set the ones before it. 
+Params are positional so using an optional one means you must set the ones before it.
 
 * username (required) - your Github username
 * repo (required) - the name of the repository for your addon
 * branch - the branch name, master is assumed by default
 * shownames - a true/false value on if the codenames for each Kodi version should also be shown
-* currentonly - another true/false value. By default all compatible Kodi versions are shown, this shows only the most current supported version. 
+* currentonly - another true/false value. By default all compatible Kodi versions are shown, this shows only the most current supported version.
 
 Version: 2.0
 Author: Rob Weber
@@ -32,12 +32,18 @@ require __DIR__ . '/../vendor/autoload.php';
 //valid kodi imports
 $kodiImports = array('xbmc.python','xbmc.gui','xbmc.json','xbmc.metadata','xbmc.addon');
 //mappings of imports to kodi versions
-$kodiNames = array('13.x'=>'Gotham','14.x'=>'Helix','15.x'=>'Isengard','16.x'=>'Jarvis','17.x'=>'Krypton','18.x'=>'Leia','19.x'=>'Matrix');
-$kodiMatrix = array('xbmc.python'=>array('2.14.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'2.19.0'=>array('14.x','15.x','16.x','17.x','18.x'),'2.20.0'=>array('15.x','16.x','17.x','18.x'),'2.24.0'=>array('16.x','17.x','18.x'),'2.25.0'=>array('17.x','18.x'),'2.26.0'=>array('18.x'),'3.0.0'=>array('19.x')),
-                   'xbmc.gui'=>array('5.0.1'=>array('13.x','14.x','15.x'),'5.3.0'=>array('14.x','15.x'),'5.9.0'=>array('15.x','16.x','17.x','18.x'),'5.10.0'=>array('16.x','17.x','18.x'),'5.12.0'=>array('17.x','18.x'),'5.14.0'=>array('18.x')),
-                   'xbmc.json'=>array('6.6.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'6.20.0'=>array('14.x','15.x','16.x','17.x','18.x'),'6.25.1'=>array('15.x','16.x','17.x','18.x'),'6.32.4'=>array('16.x','17.x','18.x'),'7.0.0'=>array('17.x','18.x'),'9.7.2'=>array('18.x')),
-		   'xbmc.metadata'=>array('2.1.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x')),
-		   'xbmc.addon'=>array('13.0.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'14.0.0'=>array('14.x','15.x','16.x','17.x','18.x'),'15.0.0'=>array('15.x','16.x','17.x','18.x'),'16.0.0'=>array('16.x','17.x','18.x'),'17.0.0'=>array('17.x','18.x'),'17.9.910'=>array('18.x')));
+$kodiNames = array('13.x'=>'Gotham','14.x'=>'Helix','15.x'=>'Isengard','16.x'=>'Jarvis','17.x'=>'Krypton','18.x'=>'Leia','19.x'=>'Matrix','20.x'=>"Nexus","21.x"=>"Omega");
+$kodiMatrix = array('xbmc.python'=>array('2.14.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x'),'2.19.0'=>array('14.x','15.x','16.x','17.x','18.x'),'2.20.0'=>array('15.x','16.x','17.x','18.x'),
+                                         '2.24.0'=>array('16.x','17.x','18.x'),'2.25.0'=>array('17.x','18.x'),'2.26.0'=>array('18.x'),'3.0.0'=>array('19.x',"20.x"), '3.0.1'=>array('20.x')),
+                   'xbmc.gui'=>array('5.0.1'=>array('13.x','14.x','15.x'),'5.3.0'=>array('14.x','15.x'),'5.9.0'=>array('15.x','16.x','17.x','18.x'),'5.10.0'=>array('16.x','17.x','18.x'),
+                                     '5.12.0'=>array('17.x','18.x'),'5.14.0'=>array('18.x',"19.x"),'5.15.0'=>array("19.x","20.x"), "5.16.0"=>array("20.x")),
+                   'xbmc.json'=>array('6.6.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x',"19.x","20.x"),'6.20.0'=>array('14.x','15.x','16.x','17.x','18.x',"19.x","20.x"),'6.25.1'=>array('15.x','16.x','17.x','18.x','19.x','20.x'),
+                                      '6.32.4'=>array('16.x','17.x','18.x','19.x','20.x'),'7.0.0'=>array('17.x','18.x','19.x','20.x'),'9.7.2'=>array('18.x','19.x','20.x'),"11.2.0"=>array("19.x", "20.x"),
+                                      "13.0.0"=>array("20.x")),
+		                'xbmc.metadata'=>array('2.1.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x','19.x','20.x')),
+		                'xbmc.addon'=>array('13.0.0'=>array('13.x','14.x','15.x','16.x','17.x','18.x','19.x','20.x'),'14.0.0'=>array('14.x','15.x','16.x','17.x','18.x','19.x','20.x'),
+                                        '15.0.0'=>array('15.x','16.x','17.x','18.x','19.x','20.x'),'16.0.0'=>array('16.x','17.x','18.x','19.x','20.x'),'17.0.0'=>array('17.x','18.x','19.x','20.x'),
+                                        '17.9.910'=>array('18.x','19.x','20.x'),'19.1.0'=>array('19.x','20.x'),'20.90.101'=>array('20.x')));
 
 //MODIFY THESE TO MATCH YOUR SITUATION
 $domainPath = "https://weberjr.com";

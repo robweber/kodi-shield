@@ -1,9 +1,10 @@
 # Changelog
 
-## Unreleased
+## [Version 2.5](https://github.com/robweber/kodi-shield/compare/v2.0...v2.5)
 
 ### Added
 - created an endpoint /downloads that will give total downloads for a specific addon version in a Kodi repo
+- added Nexus library comparisons
 
 ### Changed
 - modifed the url path to generate the badge, it is now ```/version/```
